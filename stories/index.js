@@ -9,6 +9,7 @@ import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
+import InterviewerList from "components/InterviewerList";
 
 storiesOf("Button", module)
   .addParameters({
@@ -98,7 +99,7 @@ storiesOf("InterviewerListItem", module)
       setInterviewer={action("setInterviewer")}
     />
   ));
-  
+
 const interviewers = [
   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
