@@ -4,27 +4,26 @@ import InterviewerListItem from "components/InterviewerListItem";
 import "components/InterviewerList.scss";
 
 export default function InterviewerList(props) {
+  const { interviewers, interviewer, setInterviewer, selected } = props;
+
   const interviewerListClass = classNames("",
     {
-      "interviewers__item--selected": props.selected
+      "interviewers__item--selected": selected
       // "interviewer-list__item--clickable": props.sports === 0
     });
-
-  // const formatSpots = (spots) => {
-  //   return `${spots ? spots : 'no'} spot${spots === 1 ? '' : 's'} remaining`;
-  // };
 
   return (
     <section className="interviewers">
       <h4 className="interviewers__header text--light">Interviewer</h4>
       <ul className="interviewers__list">
-        {props.interviewers.map(
-          (interviewer, index) => {
+        {interviewers.map(
+          (interviewer) => {
+            const { name, avatar, id } = interviewer;
             return <InterviewerListItem
-              name={ interviewer.name }
-              avatar={interviewer.avatar}
-              setInterviewer={ (event) => props.setInterviewer(interviewer.id) }
-              selected={props.interviewer === interviewer.id}
+              name={ name }
+              avatar={ avatar }
+              setInterviewer={ (event) => props.setInterviewer(id) }
+              selected={ props.interviewer === id }
             />;
           })}
       </ul>
