@@ -4,7 +4,7 @@ import InterviewerListItem from "components/InterviewerListItem";
 import "components/InterviewerList.scss";
 
 export default function InterviewerList(props) {
-  const { interviewers, interviewer, setInterviewer } = props;
+  // const { interviewers, interviewer, setInterviewer } = props;
 
   const interviewerListClass = classNames("",
     {
@@ -16,14 +16,14 @@ export default function InterviewerList(props) {
     <section className="interviewers">
       <h4 className="interviewers__header text--light">Interviewer</h4>
       <ul className="interviewers__list">
-        {interviewers.map(
-          (thisInterviewer) => {
-            const { name, avatar, id } = thisInterviewer;
+        {props.interviewers.map(
+          (interviewer) => {
+            const { name, avatar, id } = interviewer;
             return <InterviewerListItem
               name={ name }
               avatar={ avatar }
-              setInterviewer={ (event) => setInterviewer(id) }
-              selected={ interviewer === id }
+              setInterviewer={ (event) => props.setInterviewer(id) }
+              selected={ props.interviewer === id }
               id={id}
             />;
           })}
