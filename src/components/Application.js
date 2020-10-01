@@ -3,7 +3,7 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import axios from "axios";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getInterview, getAppointmentsForDay } from "helpers/selectors";
 
 export default function Application(props) {
 
@@ -56,7 +56,10 @@ export default function Application(props) {
       <section className="schedule">
         {dailyAppointments.map(appointment =>
           <Appointment
-            key={appointment.id} {...appointment}
+            key={appointment.id}
+            interview={getInterview(state, appointment.interview)}
+            time={appointment.time}
+            id={appointment.id}
           />)}
         <Appointment key="last" time="5pm" />
       </section>
