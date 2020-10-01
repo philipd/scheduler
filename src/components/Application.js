@@ -12,54 +12,17 @@ const interviewers = [
   { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
 ];
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: interviewers[0]
-    }
-  },
-  {
-    id: 3,
-    time: "7pm",
-    interview: {
-      student: "Nubya Garcia",
-      interviewer: interviewers[2]
-    }
-  },
-  {
-    id: 4,
-    time: "10am",
-    interview: {
-      student: "Andrew Hill",
-      interviewer: interviewers[3]
-    }
-  },
-  {
-    id: 5,
-    time: "10pm",
-    interview: {
-      student: "Wayne Shorter",
-      interviewer: interviewers[4]
-    }
-  }
-];
-
 export default function Application(props) {
   // const [days, setDays] = useState([]);
   // const [day, setDay] = useState('Monday');
+
   const [state, setState] = useState({
     day: 'Monday',
     days: [],
     appointments: {}
   })
 
+  const dailyAppointments = [];
   const setDay = day => setState({ ...state, day });
   const setDays = days => setState(prev => ({ ...prev, days }));
 
@@ -71,7 +34,6 @@ export default function Application(props) {
       })
   }, []);
 
-  console.log(appointments);
   return (
     <main className="layout">
       <section className="sidebar">
@@ -98,7 +60,7 @@ export default function Application(props) {
 
       </section>
       <section className="schedule">
-        {appointments.map(appointment =>
+        {dailyAppointments.map(appointment =>
           <Appointment
             key={appointment.id} {...appointment}
           />)}
