@@ -3,7 +3,7 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import axios from "axios";
-import { getInterview, getAppointmentsForDay } from "helpers/selectors";
+import { getInterviewersForDay, getInterview, getAppointmentsForDay } from "helpers/selectors";
 
 export default function Application(props) {
 
@@ -27,7 +27,7 @@ export default function Application(props) {
         setState(prev => ({ ...prev, days: responses[0].data, appointments: responses[1].data, interviewers: responses[2].data }));
       });
   }, []);
-
+  
   return (
     <main className="layout">
       <section className="sidebar">
@@ -60,6 +60,7 @@ export default function Application(props) {
             interview={getInterview(state, appointment.interview)}
             time={appointment.time}
             id={appointment.id}
+              interviewers={getInterviewersForDay(state, state.day)}
           />)}
         <Appointment key="last" time="5pm" />
       </section>
