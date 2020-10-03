@@ -1,3 +1,4 @@
+import deepcopy from "deepcopy";
 import React, { useState, useEffect } from "react";
 import "components/Application.scss";
 import DayList from "components/DayList";
@@ -18,7 +19,13 @@ export default function Application(props) {
   const setDay = day => setState({ ...state, day });
 
   function cancelInterview(id) {
-    return axios.delete(``)
+    console.log('delete', id);
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`, {})
+      .then(res => {
+        const stateCopy = deepcopy(state);
+        stateCopy.appointments[id] = null;
+        setState(deepcopy);
+      });
   }
 
   function bookInterview(id, interview) {
@@ -85,6 +92,7 @@ export default function Application(props) {
             id={appointment.id}
             interviewers={getInterviewersForDay(state, state.day)}
             bookInterview={bookInterview}
+            cancelInterview={cancelInterview}
           />)}
         <Appointment key="last" time="5pm" />
       </section>
