@@ -7,6 +7,7 @@ import Form from 'components/Appointment/Form';
 import useVisualMode from 'hooks/useVisualMode';
 import Status from 'components/Appointment/Status';
 import Confirm from 'components/Appointment/Confirm';
+import Error from 'components/Appointment/Error';
 
 // const interviewers = [
 //   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
@@ -24,6 +25,8 @@ export default function Appointment(props) {
   const DELETING = "DELETING";
   const EDIT = "EDIT";
   const CONFIRM = "CONFIRM";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -36,14 +39,16 @@ export default function Appointment(props) {
     };
     transition(SAVING);
     const result = props.bookInterview(props.id, interview);
-    result.then(res => transition(SHOW));
+    result.then(res => transition(SHOW))
+      .catch(res => transition(ERROR_SAVE, true));
   }
 
   function cancel() {
     // transition(CONFIRM);
     transition(DELETING);
     props.cancelInterview(props.id)
-      .then(res => transition(EMPTY));
+      .then(res => transition(EMPTY))
+      .catch(res => transition(ERROR_DELETE, true));
   }
 
   // function edit() {
@@ -54,6 +59,8 @@ export default function Appointment(props) {
 
   return <article className="appointment">
     <Header time={props.time} />
+    {mode === ERROR_DELETE && <Error message='Error' onClose={back} />}
+    {mode === ERROR_SAVE && <Error message='Error' onClose={back} />}
     {mode === CONFIRM && <Confirm onConfirm={cancel} onCancel={() => back()} />}
     {mode === SAVING && <Status message='Saving ...' />}
     {mode === DELETING && <Status message='Deleting ...' />}
@@ -65,8 +72,8 @@ export default function Appointment(props) {
         student={props.interview.student}
         interviewer={props.interview.interviewer}
         interview={props.interview}
-        onDelete={() => transition(CONFIRM) }
-        onEdit={ () => transition(EDIT) }
+        onDelete={() => transition(CONFIRM)}
+        onEdit={() => transition(EDIT)}
       />
     )}
   </article>;
