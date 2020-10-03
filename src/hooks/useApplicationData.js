@@ -27,6 +27,7 @@ export default function useApplicationData(initial) {
     const daysPromise = axios.get('http://localhost:8001/api/days');
     const appointmentsPromise = axios.get('http://localhost:8001/api/appointments');
     const interviewersPromise = axios.get('http://localhost:8001/api/interviewers');
+    console.log('use effect');
 
     Promise.all([daysPromise, appointmentsPromise, interviewersPromise])
       .then((responses) => {
