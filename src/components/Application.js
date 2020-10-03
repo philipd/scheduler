@@ -28,8 +28,12 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    console.log('id', id, 'interview', interview);
-    setState({ ...state, appointments });
+    axios.put(`http://localhost:8001/api/appointments/${id}`, interview)
+      .then((res) => {
+        setState({ ...state, appointments });
+        console.log('id', id, 'interview', interview);
+      });
+
   }
 
   useEffect(() => {
