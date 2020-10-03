@@ -5,6 +5,7 @@ import Show from 'components/Appointment/Show';
 import Empty from 'components/Appointment/Empty';
 import Form from 'components/Appointment/Form';
 import useVisualMode from 'hooks/useVisualMode';
+import Status from 'components/Appointment/Status';
 
 // const interviewers = [
 //   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
@@ -18,6 +19,7 @@ export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -28,14 +30,14 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-
-    props.bookInterview(props.id, interview);
-    transition(SHOW);
+    transition(SAVING);
+    const result = props.bookInterview(props.id, interview);
+    result.then( res => transition(SHOW) )
   }
-  console.log('Appointment', props.id);
   
   return <article className="appointment">
     <Header time={props.time} />
+    {mode === SAVING && <Status message='Saving ...'/>}
     {mode === EMPTY && <Empty id={props.id} onAdd={() => transition(CREATE)} />}
     {mode === CREATE && <Form id={props.id} onSave={save} interviewers={props.interviewers} onCancel={() => back()} />}
     {mode === SHOW && (
