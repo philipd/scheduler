@@ -1,72 +1,20 @@
-import deepcopy from "deepcopy";
 import React, { useState, useEffect } from "react";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import axios from "axios";
 import { getInterviewersForDay, getInterview, getAppointmentsForDay } from "helpers/selectors";
+import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
 
-  const [state, setState] = useState({
-    day: 'Monday',
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
+  const { 
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const setDay = day => setState({ ...state, day });
-
-  // function editInterview(id, interview) {
-  //   console.log('edit', id, interview);
-  //   return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
-  //     .then(res => {
-  //       const stateCopy = deepcopy(state);
-  //       stateCopy.appointments[id] = null;
-  //       setState(deepcopy);
-  //     });
-  // }
-
-  function cancelInterview(id) {
-    console.log('delete', id);
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`, {})
-      .then(res => {
-        const stateCopy = deepcopy(state);
-        stateCopy.appointments[id] = null;
-        setState(deepcopy);
-      });
-  }
-
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
-      .then((res) => {
-        console.log(res);
-        setState({ ...state, appointments });
-        console.log('id', id, 'interview', interview);
-      });
-  }
-
-  useEffect(() => {
-    const daysPromise = axios.get('http://localhost:8001/api/days');
-    const appointmentsPromise = axios.get('http://localhost:8001/api/appointments');
-    const interviewersPromise = axios.get('http://localhost:8001/api/interviewers');
-
-    Promise.all([daysPromise, appointmentsPromise, interviewersPromise])
-      .then((responses) => {
-        setState(prev => ({ ...prev, days: responses[0].data, appointments: responses[1].data, interviewers: responses[2].data }));
-      });
-  }, []);
 
   return (
     <main className="layout">
