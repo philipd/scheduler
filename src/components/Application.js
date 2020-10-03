@@ -18,6 +18,16 @@ export default function Application(props) {
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const setDay = day => setState({ ...state, day });
 
+  // function editInterview(id, interview) {
+  //   console.log('edit', id, interview);
+  //   return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+  //     .then(res => {
+  //       const stateCopy = deepcopy(state);
+  //       stateCopy.appointments[id] = null;
+  //       setState(deepcopy);
+  //     });
+  // }
+
   function cancelInterview(id) {
     console.log('delete', id);
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, {})
