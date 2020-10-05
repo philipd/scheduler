@@ -72,9 +72,8 @@ export default function useApplicationData(initial) {
 
   return {
     state,
-    setDay,
     xstate,
-    xsetDay,
+    setDay: xsetDay,
     bookInterview,
     cancelInterview
   };

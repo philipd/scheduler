@@ -9,9 +9,8 @@ export default function Application(props) {
 
   const { 
     state,
-    setDay,
     xstate,
-    xsetDay,
+    setDay,
     bookInterview,
     cancelInterview
   } = useApplicationData();
@@ -32,7 +31,7 @@ export default function Application(props) {
           <DayList
             days={state.days}
             day={xstate.day}
-            setDay={xsetDay}
+            setDay={setDay}
           />
         </nav>
 
