@@ -14,9 +14,11 @@ function reducer(state, action) {
       return stateCopy;
     case "cancelInterview":
       stateCopy.appointments[action.value].interview = null;
+      stateCopy.days.find( day => day.name === stateCopy.day ).spots++;
       return stateCopy;
     case "bookInterview":
       stateCopy.appointments[action.value.id].interview = action.value.interview;
+      stateCopy.days.find( day => day.name === stateCopy.day ).spots--;
       return stateCopy;
     case "load":
       stateCopy.days = action.value.days;
@@ -63,18 +65,11 @@ export default function useApplicationData(initial) {
     );
   }, []);
 
-  function loadSpots() {
-    axios.get("http://localhost:8001/api/days").then((res) => {
-      dispatch({ type:'setDays', value: res.data });
-    });
-  }
-
   function cancelInterview(id) {
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`, {})
       .then((res) => {
         dispatch({ type: "cancelInterview", value: id });
-        loadSpots();
       });
   }
 
@@ -83,7 +78,6 @@ export default function useApplicationData(initial) {
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then((res) => {
         dispatch({ type: "bookInterview", value: { id, interview } });
-        loadSpots();
       });
   }
 
