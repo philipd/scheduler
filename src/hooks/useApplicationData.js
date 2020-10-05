@@ -1,70 +1,78 @@
-import { useEffect, useState, useReducer } from 'react';
+import { useEffect, useState, useReducer } from "react";
 import deepcopy from "deepcopy";
 import axios from "axios";
 
-function reducer (state, action) {
+function reducer(state, action) {
+  const stateCopy = deepcopy(state);
+
   switch (action.type) {
-    case 'setDay':
-      return { day: action.value }
+    case "setDay":
+      stateCopy.day = action.value;
+      return stateCopy;
+    case "cancelInterview":
+      stateCopy.appointments[action.value] = null;
+      return stateCopy;
     default:
       throw new Error();
   }
 }
 
-// const xinitialState = {
-//     day: 'Monday',
-//     days: [],
-//     appointments: {},
-//     interviewers: {}
-//   }
-
 const initialState = {
-    day: 'Monday', // get day() { return state.day }, //(() => {return xinitialState.day})(),
-    days: [],
-    appointments: {},
-    interviewers: {}
-  }
+  day: "Monday",
+  days: [],
+  appointments: {},
+  interviewers: {},
+};
 
 export default function useApplicationData(initial) {
-
   const [xstate, dispatch] = useReducer(reducer, initialState);
   const [state, setState] = useState(initialState);
 
   const proxyHandler = {
     get: function (target, prop, receiver) {
-      if (prop === 'day') {
+      if (prop === "day") {
         return xstate.day;
       }
       return Reflect.get(...arguments);
-    }
+    },
   };
 
   const stateProxy = new Proxy(state, proxyHandler);
-  
-  const xsetDay = xday => dispatch({ type: "setDay", value: xday});
+
+  const xsetDay = (xday) => dispatch({ type: "setDay", value: xday });
 
   useEffect(() => {
-    const daysPromise = axios.get('http://localhost:8001/api/days');
-    const appointmentsPromise = axios.get('http://localhost:8001/api/appointments');
-    const interviewersPromise = axios.get('http://localhost:8001/api/interviewers');
+    const daysPromise = axios.get("http://localhost:8001/api/days");
+    const appointmentsPromise = axios.get(
+      "http://localhost:8001/api/appointments"
+    );
+    const interviewersPromise = axios.get(
+      "http://localhost:8001/api/interviewers"
+    );
 
-    Promise.all([daysPromise, appointmentsPromise, interviewersPromise])
-      .then((responses) => {
-        setState(prev => ({ ...prev, days: responses[0].data, appointments: responses[1].data, interviewers: responses[2].data }));
-      });
+    Promise.all([daysPromise, appointmentsPromise, interviewersPromise]).then(
+      (responses) => {
+        setState((prev) => ({
+          ...prev,
+          days: responses[0].data,
+          appointments: responses[1].data,
+          interviewers: responses[2].data,
+        }));
+      }
+    );
   }, []);
 
-  function loadSpots(){
-    axios.get('http://localhost:8001/api/days')
-      .then( res => setState(prev => ({ ...prev, days: res.data})));
+  function loadSpots() {
+    axios
+      .get("http://localhost:8001/api/days")
+      .then((res) => setState((prev) => ({ ...prev, days: res.data })));
   }
 
   function cancelInterview(id) {
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`, {})
-      .then(res => {
-        const stateCopy = deepcopy(state);
-        stateCopy.appointments[id] = null;
-        setState(deepcopy);
+    return axios
+      .delete(`http://localhost:8001/api/appointments/${id}`, {})
+      .then((res) => {
+        dispatch({ type: "cancelInterview", value: id });
         loadSpots();
       });
   }
@@ -72,15 +80,16 @@ export default function useApplicationData(initial) {
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
-      interview: { ...interview }
+      interview: { ...interview },
     };
 
     const appointments = {
       ...state.appointments,
-      [id]: appointment
+      [id]: appointment,
     };
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+    return axios
+      .put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then((res) => {
         setState({ ...state, appointments });
         loadSpots();
@@ -91,6 +100,6 @@ export default function useApplicationData(initial) {
     state: stateProxy,
     setDay: xsetDay,
     bookInterview,
-    cancelInterview
+    cancelInterview,
   };
 }
