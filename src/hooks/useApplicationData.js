@@ -82,7 +82,6 @@ export default function useApplicationData(initial) {
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then((res) => {
-        console.log('response', interview);
         dispatch({ type: "bookInterview", value: { id, interview } });
         loadSpots();
       });
