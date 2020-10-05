@@ -1,17 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import deepcopy from "deepcopy";
 import axios from "axios";
 
-export default function useApplicationData(initial) {
+function reducer (state, action) {
+  switch (action.type) {
+    case 'setDay':
+      return { day: action.value }
+    default:
+      throw new Error();
+  }
+}
 
-  const [state, setState] = useState({
+const initialState = {
     day: 'Monday',
     days: [],
     appointments: {},
     interviewers: {}
-  });
+  }
+
+export default function useApplicationData(initial) {
+
+  const [xstate, dispatch] = useReducer(reducer, initialState);
+  const [state, setState] = useState(initialState);
 
   const setDay = day => setState({ ...state, day });
+  const xsetDay = xday => dispatch({ type: "setDay", value: xday});
 
   useEffect(() => {
     const daysPromise = axios.get('http://localhost:8001/api/days');
@@ -60,6 +73,8 @@ export default function useApplicationData(initial) {
   return {
     state,
     setDay,
+    xstate,
+    xsetDay,
     bookInterview,
     cancelInterview
   };
