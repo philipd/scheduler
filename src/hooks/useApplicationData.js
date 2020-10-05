@@ -19,7 +19,7 @@ function reducer(state, action) {
       stateCopy.appointments[action.value].interview = null;
       return stateCopy;
     case "bookInterview":
-      stateCopy.appointments[action.value.id] = action.value.interview;
+      stateCopy.appointments[action.value.id].interview = action.value.interview;
       return stateCopy;
     // case "setDays":
     //   stateCopy.days = action.value;
@@ -137,6 +137,7 @@ export default function useApplicationData(initial) {
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then((res) => {
         // setState({ ...state, appointments });
+        console.log('response', interview);
         dispatch({ type: "bookInterview", value: { id, interview } });
         loadSpots();
       });
