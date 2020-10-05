@@ -33,8 +33,8 @@ export default function useApplicationData(initial) {
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, {})
       .then(res => {
         const stateCopy = deepcopy(state);
-        stateCopy.appointments[id] = null;
-        setState(deepcopy);
+        stateCopy.appointments[id].interview = null;
+        setState(stateCopy);
         loadSpots();
       });
   }
