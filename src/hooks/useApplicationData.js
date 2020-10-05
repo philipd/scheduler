@@ -11,8 +11,15 @@ function reducer (state, action) {
   }
 }
 
+// const xinitialState = {
+//     day: 'Monday',
+//     days: [],
+//     appointments: {},
+//     interviewers: {}
+//   }
+
 const initialState = {
-    day: 'Monday',
+    day: 'Monday', // get day() { return state.day }, //(() => {return xinitialState.day})(),
     days: [],
     appointments: {},
     interviewers: {}
@@ -23,7 +30,17 @@ export default function useApplicationData(initial) {
   const [xstate, dispatch] = useReducer(reducer, initialState);
   const [state, setState] = useState(initialState);
 
-  const setDay = day => setState({ ...state, day });
+  const proxyHandler = {
+    get: function (target, prop, receiver) {
+      if (prop === 'day') {
+        return xstate.day;
+      }
+      return Reflect.get(...arguments);
+    }
+  };
+
+  const stateProxy = new Proxy(state, proxyHandler);
+  
   const xsetDay = xday => dispatch({ type: "setDay", value: xday});
 
   useEffect(() => {
@@ -71,8 +88,7 @@ export default function useApplicationData(initial) {
   }
 
   return {
-    state,
-    xstate,
+    state: stateProxy,
     setDay: xsetDay,
     bookInterview,
     cancelInterview
