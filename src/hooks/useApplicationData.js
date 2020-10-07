@@ -17,8 +17,10 @@ function reducer(state, action) {
       stateCopy.days.find( day => day.name === stateCopy.day ).spots++;
       return stateCopy;
     case "bookInterview":
+      // If no interview exists yet for this appointment, change spots remaining
+      if(!stateCopy.appointments[action.value.id].interview)
+        stateCopy.days.find( day => day.name === stateCopy.day ).spots--;
       stateCopy.appointments[action.value.id].interview = action.value.interview;
-      stateCopy.days.find( day => day.name === stateCopy.day ).spots--;
       return stateCopy;
     case "load":
       stateCopy.days = action.value.days;

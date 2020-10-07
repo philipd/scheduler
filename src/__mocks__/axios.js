@@ -104,6 +104,31 @@ export default {
       });
     }
   }),
+  delete: jest.fn((url) => {
+    if (/api\/days/.test(url)) {
+      return Promise.resolve({
+        status: 200,
+        statusText: "OK",
+        data: fixtures.days,
+      });
+    }
+
+    if (/api\/appointments/.test(url)) {
+      return Promise.resolve({
+        status: 200,
+        statusText: "OK",
+        data: fixtures.appointments,
+      });
+    }
+
+    if (/api\/interviewers/.test(url)) {
+      return Promise.resolve({
+        status: 200,
+        statusText: "OK",
+        data: fixtures.interviewers,
+      });
+    }
+  }),
 };
 
 // export default {
