@@ -57,7 +57,7 @@ export default function Appointment(props) {
   //     .then(res => transition(SHOW));
   // }
 
-  return <article className="appointment">
+  return <article data-testid="appointment" className="appointment">
     <Header time={props.time} />
     {mode === ERROR_DELETE && <Error message='Error' onClose={back} />}
     {mode === ERROR_SAVE && <Error message='Error' onClose={back} />}
