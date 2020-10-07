@@ -15,6 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "cypress": "cypress open -P .",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -43,6 +44,7 @@
     "@testing-library/jest-dom": "^4.0.0",
     "@testing-library/react": "^8.0.7",
     "babel-loader": "^8.0.5",
+    "cypress": "^5.3.0",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.9.0"
