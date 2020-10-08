@@ -8,7 +8,6 @@ export default function InterviewerListItem(props) {
   const interviewerClass = classNames("interviewers__item",
     {
       "interviewers__item--selected": props.selected
-      // "interviewer-list__item--clickable": props.spots === 0
     });
 
   return (

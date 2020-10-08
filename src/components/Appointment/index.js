@@ -44,24 +44,17 @@ export default function Appointment(props) {
   }
 
   function cancel() {
-    // transition(CONFIRM);
     transition(DELETING, true);
     props.cancelInterview(props.id)
       .then(res => transition(EMPTY))
       .catch(res => transition(ERROR_DELETE, true));
   }
 
-  // function edit() {
-  //   transition(SAVING);
-  //   props.editInterview(props.id)
-  //     .then(res => transition(SHOW));
-  // }
-
   return <article data-testid="appointment" className="appointment">
     <Header time={props.time} />
     {mode === ERROR_DELETE && <Error message='Error' onClose={back} />}
     {mode === ERROR_SAVE && <Error message='Error' onClose={back} />}
-    {mode === CONFIRM && <Confirm onConfirm={cancel} onCancel={() => back()} />}
+    {mode === CONFIRM && <Confirm message="Delete the appointment?" onConfirm={cancel} onCancel={() => back()} />}
     {mode === SAVING && <Status message='Saving ...' />}
     {mode === DELETING && <Status message='Deleting ...' />}
     {mode === EMPTY && <Empty id={props.id} onAdd={() => transition(CREATE)} />}
