@@ -15,11 +15,14 @@ Appointments can be deleted by clicking the 'delete' button. The user is prompte
 Changes to the database such as put, post, or delete requests will result in the client displaying a animated spinner while the API request completes. Failed requests of these types will result in an error being displayed. Closing the error will return the user to their previous place in the UI.
 
 ## Screenshots
-
-!["Users are prompted for confirmation prior to file deletion."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/confirm.png)
-!["Database change operations cause a spinner to be displayed."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/deleting.png)
-!["The edit form allows users to modify existing appointments by typing the student name, or selecting the interviewer from a list."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/edit.png)
+Edit and delete buttons are displayed when hovering over an existing appointment.
 !["Edit and delete buttons are displayed when hovering over an existing appointment."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/hover.png)
+The edit form allows users to modify existing appointments by typing the student name, or selecting the interviewer from a list.
+!["The edit form allows users to modify existing appointments by typing the student name, or selecting the interviewer from a list."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/edit.png)
+Users are prompted for confirmation prior to file deletion.
+!["Users are prompted for confirmation prior to file deletion."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/confirm.png)
+Database change operations cause a spinner to be displayed.
+!["Database change operations cause a spinner to be displayed."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/deleting.png)
 
 ## Dependencies
 
