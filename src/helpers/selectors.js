@@ -20,7 +20,7 @@ export function getInterview(state, interview) {
   if(!interview)
     return null
 
-  let newInterview = {...interview};
+  const newInterview = {...interview};
   newInterview.interviewer = state.interviewers[interview.interviewer];
 
   return newInterview;
