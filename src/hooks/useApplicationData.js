@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import deepcopy from "deepcopy";
 import axios from "axios";
-axios.defaults.baseURL = 'http://localhost:8001'
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 
 function reducer(state, action) {
   const stateCopy = deepcopy(state);
