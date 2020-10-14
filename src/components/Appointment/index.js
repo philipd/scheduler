@@ -50,7 +50,7 @@ export default function Appointment(props) {
       .catch(res => transition(ERROR_DELETE, true));
   }
 
-  return <article data-testid="appointment" className="appointment">
+  return (<article data-testid="appointment" className="appointment">
     <Header time={props.time} />
     {mode === ERROR_DELETE && <Error message='Error' onClose={back} />}
     {mode === ERROR_SAVE && <Error message='Error' onClose={back} />}
@@ -69,5 +69,5 @@ export default function Appointment(props) {
         onEdit={() => transition(EDIT)}
       />
     )}
-  </article>;
+  </article>);
 }
