@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from "react";
 import deepcopy from "deepcopy";
 import axios from "axios";
+axios.defaults.baseURL = 'http://localhost:8001'
 
 function reducer(state, action) {
   const stateCopy = deepcopy(state);
@@ -45,12 +46,12 @@ export default function useApplicationData(initial) {
   const setDay = (day) => dispatch({ type: "setDay", value: day });
 
   useEffect(() => {
-    const daysPromise = axios.get("http://localhost:8001/api/days");
+    const daysPromise = axios.get("/api/days");
     const appointmentsPromise = axios.get(
-      "http://localhost:8001/api/appointments"
+      "/api/appointments"
     );
     const interviewersPromise = axios.get(
-      "http://localhost:8001/api/interviewers"
+      "/api/interviewers"
     );
 
     Promise.all([daysPromise, appointmentsPromise, interviewersPromise]).then(
@@ -69,7 +70,7 @@ export default function useApplicationData(initial) {
 
   function cancelInterview(id) {
     return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`, {})
+      .delete(`/api/appointments/${id}`, {})
       .then((res) => {
         dispatch({ type: "cancelInterview", value: id });
       });
@@ -77,7 +78,7 @@ export default function useApplicationData(initial) {
 
   function bookInterview(id, interview) {
     return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .put(`/api/appointments/${id}`, { interview })
       .then((res) => {
         dispatch({ type: "bookInterview", value: { id, interview } });
       });
