@@ -24,6 +24,10 @@ Users are prompted for confirmation prior to file deletion.
 Database change operations cause a spinner to be displayed.
 !["Database change operations cause a spinner to be displayed."](https://raw.githubusercontent.com/philipd/scheduler/master/docs/deleting.png)
 
+## Project Setup
+
+After cloning the repo, run `npm install` to install the dependencies. Modify .env.development to set the base URL if not using the defaults. Ensure that the scheduler-api server is running on the appropriate port. Run `npm start` to start the scheduler api. A browser should open automatically.
+
 ## Dependencies
 
 - axios: 0.20.0 or better
