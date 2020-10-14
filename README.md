@@ -26,7 +26,8 @@ Database change operations cause a spinner to be displayed.
 
 ## Project Setup
 
-After cloning the repo, run `npm install` to install the dependencies. Modify .env.development to set the base URL if not using the defaults. Ensure that the scheduler-api server is running on the appropriate port. Run `npm start` to start the scheduler api. A browser should open automatically.
+After cloning the repo, run `npm install` to install the dependencies. Modify .env.development to set the base URL if not using the defaults (you may also wish to modify the proxy in package.json). Ensure that the [scheduler-api](https://github.com/philipd/scheduler-api) server is running on the appropriate port. Run `npm start` to start the scheduler api. A browser should open automatically.
+
 
 ## Dependencies
 
